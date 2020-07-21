@@ -13,10 +13,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: install prerequisites
+          name: install prerequisites and dependencies
           command: |
             mix local.hex --force
             mix local.rebar --force
+            mix deps.get
       - run:
           name: run unit tests
           command: mix test
