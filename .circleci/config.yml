@@ -1,0 +1,21 @@
+version: 2.1
+
+executors:
+  test:
+    docker:
+      - image: circleci/elixir:1.10.4
+        environment:
+          MIX_ENV: test
+
+jobs:
+  test:
+    executor: test
+    steps:
+      - checkout
+      - run: mix test
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
