@@ -12,7 +12,14 @@ jobs:
     executor: test
     steps:
       - checkout
-      - run: mix test
+      - run:
+          name: install prerequisites
+          command: |
+            mix local.hex --force
+            mix local.rebar --force
+      - run:
+          name: run unit tests
+          command: mix test
 
 workflows:
   version: 2
