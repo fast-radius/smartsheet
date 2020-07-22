@@ -11,10 +11,7 @@ defmodule Smartsheet.ParseResponseTest do
 
       assert {:ok, %Smartsheet.Response{}, sheet = %Smartsheet.Sheet{}} = wrapped_response
 
-      sheet.columns
-      |> Enum.each(fn column ->
-        assert %Smartsheet.Column{} = column
-      end)
+      assert Enum.all?(sheet.columns, fn col -> match?(%Smartsheet.Column{}, col) end)
     end
 
     test ":get failure" do
@@ -30,10 +27,7 @@ defmodule Smartsheet.ParseResponseTest do
 
       assert {:ok, %Smartsheet.Response{}, sheet = %Smartsheet.Sheet{}} = wrapped_response
 
-      sheet.columns
-      |> Enum.each(fn column ->
-        assert %Smartsheet.Column{} = column
-      end)
+      assert Enum.all?(sheet.columns, fn col -> match?(%Smartsheet.Column{}, col) end)
     end
 
     test ":create failure" do
@@ -53,10 +47,7 @@ defmodule Smartsheet.ParseResponseTest do
 
       assert {:ok, %Smartsheet.Response{}, rows} = wrapped_response
 
-      rows
-      |> Enum.each(fn row ->
-        assert %Smartsheet.Row{} = row
-      end)
+      assert Enum.all?(rows, fn row -> match?(%Smartsheet.Row{}, row) end)
     end
 
     test ":add_to_sheet failure" do
