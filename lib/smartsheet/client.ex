@@ -5,7 +5,17 @@ defmodule Smartsheet.Client do
   @base_url "https://api.smartsheet.com"
 
   def process_request_body(body) do
-    Poison.encode!(body)
+    request_body =
+      cond do
+        is_binary(body) ->
+          body
+
+        true ->
+          Smartsheet.Util.StringifyKeys.stringify_keys(body)
+          |> Recase.Enumerable.convert_keys(&Recase.to_camel/1)
+      end
+
+    Poison.encode!(request_body)
   end
 
   def process_request_url(path) do
@@ -23,6 +33,7 @@ defmodule Smartsheet.Client do
   def process_response_body(body) do
     body
     |> Poison.decode!()
+    |> Recase.Enumerable.convert_keys(&Recase.to_snake/1)
     |> Smartsheet.Util.AtomizeKeys.atomize_keys()
   end
 
