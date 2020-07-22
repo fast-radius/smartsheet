@@ -6,12 +6,11 @@ defmodule Smartsheet.Util.AtomizeKeys do
   end
 
   def atomize_keys(map = %{}) do
-    map
-    |> Enum.map(fn
-      {k, v} when is_atom(k) -> {k, atomize_keys(v)}
-      {k, v} -> {String.to_atom(k), atomize_keys(v)}
-    end)
-    |> Enum.into(%{})
+    for {key, val} <- map, into: %{} do
+      if is_atom(key),
+        do: {key, atomize_keys(val)},
+        else: {String.to_atom(key), atomize_keys(val)}
+    end
   end
 
   def atomize_keys([head | rest]) do

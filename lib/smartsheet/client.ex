@@ -27,6 +27,7 @@ defmodule Smartsheet.Client do
   end
 
   defp api_key() do
-    Application.get_env(:smartsheet, :api_key)
+    Application.get_env(:smartsheet, :api_key) ||
+      System.get_env("SMARTSHEET_API_KEY")
   end
 end
