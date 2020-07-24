@@ -13,9 +13,19 @@ defmodule Smartsheet.Util.AtomizeKeysTest do
       assert %Smartsheet.Column{id: 1, primary: true} = AtomizeKeys.atomize_keys(struct)
     end
 
-    test "a map" do
+    test "a map with a string key" do
       map = %{"number" => 123}
       assert %{number: 123} = AtomizeKeys.atomize_keys(map)
+    end
+
+    test "a map with an atom key" do
+      map = %{number: 123}
+      assert %{number: 123} = AtomizeKeys.atomize_keys(map)
+    end
+
+    test "a map with a map key" do
+      map = %{%{"thing" => 123} => 456}
+      assert %{%{thing: 123} => 456} = AtomizeKeys.atomize_keys(map)
     end
 
     test "a nested map" do

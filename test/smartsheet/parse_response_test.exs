@@ -10,7 +10,7 @@ defmodule Smartsheet.ParseResponseTest do
       wrapped_response = ParseResponse.parse(Smartsheet.Sheets, {:get, 1}, raw_http_response)
 
       assert {:ok, %Smartsheet.Response{}, sheet = %Smartsheet.Sheet{}} = wrapped_response
-
+      assert sheet.access_level == "OWNER"
       assert Enum.all?(sheet.columns, fn col -> match?(%Smartsheet.Column{}, col) end)
     end
 
@@ -26,7 +26,7 @@ defmodule Smartsheet.ParseResponseTest do
       wrapped_response = ParseResponse.parse(Smartsheet.Sheets, {:create, 1}, raw_http_response)
 
       assert {:ok, %Smartsheet.Response{}, sheet = %Smartsheet.Sheet{}} = wrapped_response
-
+      assert sheet.access_level == "OWNER"
       assert Enum.all?(sheet.columns, fn col -> match?(%Smartsheet.Column{}, col) end)
     end
 
@@ -46,6 +46,8 @@ defmodule Smartsheet.ParseResponseTest do
         ParseResponse.parse(Smartsheet.Rows, {:add_to_sheet, 1}, raw_http_response)
 
       assert {:ok, %Smartsheet.Response{}, rows} = wrapped_response
+      first_row = List.first(rows)
+      assert first_row.locked_for_user == false
 
       assert Enum.all?(rows, fn row -> match?(%Smartsheet.Row{}, row) end)
     end

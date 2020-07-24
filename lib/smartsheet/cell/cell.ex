@@ -2,18 +2,18 @@ defmodule Smartsheet.Cell do
   @derive [Poison.Encoder]
 
   defstruct [
-    :columnId,
-    :columnType,
-    :conditionalFormat,
-    :displayValue,
+    :column_id,
+    :column_type,
+    :conditional_format,
+    :display_value,
     :format,
     :formula,
     :hyperlink,
     :image,
-    :linkInFromCell,
-    :linksOutToCells,
-    :objectValue,
-    :overrideValidation,
+    :link_in_from_cell,
+    :links_out_to_cells,
+    :object_value,
+    :override_validation,
     :strict,
     :value
   ]

@@ -7,9 +7,16 @@ defmodule Smartsheet.Util.AtomizeKeys do
 
   def atomize_keys(map = %{}) do
     for {key, val} <- map, into: %{} do
-      if is_atom(key),
-        do: {key, atomize_keys(val)},
-        else: {String.to_atom(key), atomize_keys(val)}
+      cond do
+        is_atom(key) ->
+          {key, atomize_keys(val)}
+
+        is_binary(key) ->
+          {String.to_atom(key), atomize_keys(val)}
+
+        true ->
+          {atomize_keys(key), atomize_keys(val)}
+      end
     end
   end
 
