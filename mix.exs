@@ -5,6 +5,7 @@ defmodule Smartsheet.MixProject do
     [
       app: :smartsheet,
       description: "HTTP wrapper around the Smartsheet API",
+      package: package(),
       version: "0.1.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
@@ -25,6 +26,15 @@ defmodule Smartsheet.MixProject do
       {:httpoison, "~> 1.6"},
       {:poison, "~> 3.1"},
       {:recase, "~> 0.5"}
+    ]
+  end
+
+  defp package do
+    [
+      name: "smartsheet_api",
+      licenses: ["MIT License"],
+      links: %{"GitHub" => "https://github.com/fast-radius/smartsheet"},
+      source_url: "https://github.com/fast-radius/smartsheet"
     ]
   end
 end
