@@ -25,7 +25,8 @@ defmodule Smartsheet.MixProject do
     [
       {:httpoison, "~> 1.6"},
       {:poison, "~> 3.1"},
-      {:recase, "~> 0.5"}
+      {:recase, "~> 0.5"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 
