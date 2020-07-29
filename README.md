@@ -4,12 +4,12 @@ Elixir wrapper for the Smartsheet API
 
 ## Installation
 
-The package can be installed by adding `smartsheet_api` to your list of dependencies in `mix.exs`:
+The package can be installed by adding `smartsheet` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:smartsheet_api, "~> 0.1.0"}
+    {:smartsheet, "~> 0.1.0"}
   ]
 end
 ```

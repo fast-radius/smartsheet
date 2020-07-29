@@ -32,7 +32,7 @@ defmodule Smartsheet.MixProject do
 
   defp package do
     [
-      name: "smartsheet_api",
+      name: "smartsheet",
       licenses: ["MIT License"],
       links: %{"GitHub" => "https://github.com/fast-radius/smartsheet"},
       source_url: "https://github.com/fast-radius/smartsheet"
