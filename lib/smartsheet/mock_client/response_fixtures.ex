@@ -192,36 +192,17 @@ defmodule Smartsheet.MockClient.ResponseFixtures do
     })
   end
 
-  def add_rows_success() do
+  def add_rows_success(rows \\ []) do
+    result =
+      Enum.with_index(rows)
+      |> Enum.map(fn {row, index} ->
+        Map.put(row, :id, index)
+      end)
+
     format_response(%HTTPoison.Response{
       body: %{
         message: "SUCCESS",
-        result: [
-          %{
-            cells: [%{column_id: 7_136_425_824_020_356}, %{column_id: 1_506_926_289_807_236}],
-            created_at: "2020-07-22T21:26:48Z",
-            expanded: true,
-            id: 2_912_283_551_393_668,
-            locked: true,
-            locked_for_user: false,
-            modified_at: "2020-07-22T21:26:48Z",
-            row_number: 7,
-            sheet_id: 5_669_708_297_987_972,
-            sibling_id: 6_033_822_295_582_596
-          },
-          %{
-            cells: [%{column_id: 7_136_425_824_020_356}, %{column_id: 1_506_926_289_807_236}],
-            created_at: "2020-07-22T21:26:48Z",
-            expanded: true,
-            id: 7_415_883_178_764_164,
-            locked: true,
-            locked_for_user: false,
-            modified_at: "2020-07-22T21:26:48Z",
-            row_number: 8,
-            sheet_id: 5_669_708_297_987_972,
-            sibling_id: 2_912_283_551_393_668
-          }
-        ],
+        result: result,
         result_code: 0,
         version: 10
       },

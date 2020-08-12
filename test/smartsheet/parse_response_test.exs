@@ -40,12 +40,13 @@ defmodule Smartsheet.ParseResponseTest do
 
   describe "Smartsheet.Rows" do
     test ":add_to_sheet success" do
-      {:ok, raw_http_response} = ResponseFixtures.add_rows_success()
+      {:ok, raw_http_response} = ResponseFixtures.add_rows_success([%{locked_for_user: false}])
 
       wrapped_response =
         ParseResponse.parse(Smartsheet.Rows, {:add_to_sheet, 1}, raw_http_response)
 
       assert {:ok, %Smartsheet.Response{}, rows} = wrapped_response
+
       first_row = List.first(rows)
       assert first_row.locked_for_user == false
 
