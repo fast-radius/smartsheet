@@ -9,7 +9,7 @@ The package can be installed by adding `smartsheet` to your list of dependencies
 ```elixir
 def deps do
   [
-    {:smartsheet, "~> 0.1.0"}
+    {:smartsheet, "~> 1.0.0"}
   ]
 end
 ```
