@@ -47,9 +47,15 @@ defmodule Smartsheet.ParseResponse do
   end
 
   defp parse_row(row_map) do
-    cells = parse_cells(row_map.cells)
-    row = %{row_map | cells: cells}
-    struct(Smartsheet.Row, row)
+    cond do
+      Map.has_key?(row_map, :cells) ->
+        cells = parse_cells(row_map.cells)
+        row = %{row_map | cells: cells}
+        struct(Smartsheet.Row, row)
+
+      true ->
+        struct(Smartsheet.Row, row_map)
+    end
   end
 
   defp parse_cells(cell_maps) do
@@ -57,9 +63,15 @@ defmodule Smartsheet.ParseResponse do
   end
 
   defp parse_sheet(sheet_map) do
-    columns = parse_columns(sheet_map.columns)
-    sheet = %{sheet_map | columns: columns}
-    struct(Smartsheet.Sheet, sheet)
+    cond do
+      Map.has_key?(sheet_map, :columns) ->
+        columns = parse_columns(sheet_map.columns)
+        sheet = %{sheet_map | columns: columns}
+        struct(Smartsheet.Sheet, sheet)
+
+      true ->
+        struct(Smartsheet.Sheet, sheet_map)
+    end
   end
 
   defp parse_columns(columns) do
