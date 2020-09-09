@@ -194,9 +194,8 @@ defmodule Smartsheet.MockClient.ResponseFixtures do
 
   def add_rows_success(rows \\ []) do
     result =
-      Enum.with_index(rows)
-      |> Enum.map(fn {row, index} ->
-        Map.put(row, :id, index)
+      Enum.map(rows, fn row ->
+        Map.put(row, :id, Enum.random(0..1000))
       end)
 
     format_response(%HTTPoison.Response{
@@ -260,6 +259,73 @@ defmodule Smartsheet.MockClient.ResponseFixtures do
       },
       request_url: "https://api.smartsheet.com/2.0/sheets/5669708297987972/rows",
       status_code: 400
+    })
+  end
+
+  def update_rows_failure() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        detail: %{index: 0, row_id: 4_464_204_502_329_220},
+        error_code: 1036,
+        message: "Something bad happened",
+        ref_id: "16xhx3nbo7ely"
+      },
+      headers: [
+        {"Date", "Tue, 08 Sep 2020 16:33:15 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "180"},
+        {"Connection", "keep-alive"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body:
+          "{\"id\":4464204502329220,\"cells\":[{\"value\":\"Kitty\",\"columnId\":8386134404294592}]}",
+        headers: [
+          Authorization: "Bearer 123",
+          "Content-Type": "application/json"
+        ],
+        method: :put,
+        options: [],
+        params: %{},
+        url: "https://api.smartsheet.com/2.0/sheets/3944882986346372/rows"
+      },
+      request_url: "https://api.smartsheet.com/2.0/sheets/3944882986346372/rows",
+      status_code: 400
+    })
+  end
+
+  def update_rows_success(rows) do
+    format_response(%HTTPoison.Response{
+      body: %{
+        message: "SUCCESS",
+        result: rows,
+        result_code: 0,
+        version: 4
+      },
+      headers: [
+        {"Date", "Tue, 08 Sep 2020 16:31:31 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "358"},
+        {"Connection", "keep-alive"},
+        {"Cache-Control", "no-cache, no-store, must-revalidate"},
+        {"Pragma", "no-cache"},
+        {"Expires", "0"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body:
+          "{\"id\":4464204502329220,\"cells\":[{\"value\":\"Kitty\",\"columnId\":8386134404294532}]}",
+        headers: [
+          Authorization: "Bearer 123",
+          "Content-Type": "application/json"
+        ],
+        method: :put,
+        options: [],
+        params: %{},
+        url: "https://api.smartsheet.com/2.0/sheets/3944882986346372/rows"
+      },
+      request_url: "https://api.smartsheet.com/2.0/sheets/3944882986346372/rows",
+      status_code: 200
     })
   end
 

@@ -27,4 +27,21 @@ defmodule Smartsheet.MockClient do
         nil
     end
   end
+
+  def put("/sheets/:id/rows", rows, _headers) do
+    Smartsheet.MockClient.ResponseFixtures.update_rows_success(rows)
+  end
+
+  def put("/sheets/" <> suffix, attributes, headers) do
+    case String.split(suffix, "/") do
+      ["update_rows_fail_id", "rows"] ->
+        Smartsheet.MockClient.ResponseFixtures.update_rows_failure()
+
+      [_id, "rows"] ->
+        Smartsheet.MockClient.put("/sheets/:id/rows", attributes, headers)
+
+      _ ->
+        nil
+    end
+  end
 end

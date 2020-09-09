@@ -18,4 +18,14 @@ defmodule Smartsheet.RowsTest do
       end)
     end
   end
+
+  describe "update/2" do
+    rows = [%{id: 1, locked: true}]
+
+    assert {:ok, %Smartsheet.Response{}, response_rows} = Smartsheet.Rows.update(1, rows)
+
+    Enum.each(response_rows, fn row ->
+      assert %Smartsheet.Row{} = row
+    end)
+  end
 end

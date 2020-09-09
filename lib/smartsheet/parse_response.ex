@@ -40,6 +40,17 @@ defmodule Smartsheet.ParseResponse do
     end
   end
 
+  def parse(Smartsheet.Rows, {:update, _arity}, response = %HTTPoison.Response{}) do
+    case response.status_code do
+      200 ->
+        rows = parse_rows(response.body.result)
+        success_response(response, rows)
+
+      _ ->
+        error_response(response)
+    end
+  end
+
   defp parse_rows(row_maps) do
     Enum.map(row_maps, fn row_map ->
       parse_row(row_map)
