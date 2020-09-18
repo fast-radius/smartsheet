@@ -1,11 +1,11 @@
-defmodule Smartsheet.ClientTest do
+defmodule Smartsheet.HttpClientTest do
   use ExUnit.Case
 
-  alias Smartsheet.Client
+  alias Smartsheet.HttpClient
 
   describe "process_request_body/1" do
     test "the body is an empty string" do
-      assert "\"\"" == Client.process_request_body("")
+      assert "\"\"" == HttpClient.process_request_body("")
     end
 
     test "it camelizes atom keys and json encodes the request body" do
@@ -20,7 +20,7 @@ defmodule Smartsheet.ClientTest do
       encoded =
         "{\"toTop\":true,\"cells\":[{\"value\":\"Person\",\"columnId\":123},{\"value\":21,\"columnId\":456}]}"
 
-      assert encoded == Client.process_request_body(body)
+      assert encoded == HttpClient.process_request_body(body)
     end
 
     test "it works for camelized atom keys" do
@@ -35,7 +35,7 @@ defmodule Smartsheet.ClientTest do
       encoded =
         "{\"toTop\":true,\"cells\":[{\"value\":\"Person\",\"columnId\":123},{\"value\":21,\"columnId\":456}]}"
 
-      assert encoded == Client.process_request_body(body)
+      assert encoded == HttpClient.process_request_body(body)
     end
 
     test "it works for snake cased string keys" do
@@ -50,7 +50,7 @@ defmodule Smartsheet.ClientTest do
       encoded =
         "{\"toTop\":true,\"cells\":[{\"value\":\"Person\",\"columnId\":123},{\"value\":21,\"columnId\":456}]}"
 
-      assert encoded == Client.process_request_body(body)
+      assert encoded == HttpClient.process_request_body(body)
     end
 
     test "it works for camelized string keys" do
@@ -65,7 +65,7 @@ defmodule Smartsheet.ClientTest do
       encoded =
         "{\"toTop\":true,\"cells\":[{\"value\":\"Person\",\"columnId\":123},{\"value\":21,\"columnId\":456}]}"
 
-      assert encoded == Client.process_request_body(body)
+      assert encoded == HttpClient.process_request_body(body)
     end
   end
 
@@ -73,7 +73,7 @@ defmodule Smartsheet.ClientTest do
     test "generates the full URL based on the path" do
       path = "/sheets"
 
-      assert "https://api.smartsheet.com/2.0/sheets" = Client.process_request_url(path)
+      assert "https://api.smartsheet.com/2.0/sheets" = HttpClient.process_request_url(path)
     end
   end
 
@@ -82,7 +82,7 @@ defmodule Smartsheet.ClientTest do
       headers = {"Content-Type", "application/json"}
 
       assert [{:Authorization, "Bearer "} | {"Content-Type", "application/json"}] ==
-               Client.process_request_headers(headers)
+               HttpClient.process_request_headers(headers)
     end
   end
 
@@ -101,11 +101,11 @@ defmodule Smartsheet.ClientTest do
         result_code: 0
       }
 
-      assert parsed_body == Client.process_response_body(body)
+      assert parsed_body == HttpClient.process_response_body(body)
     end
 
     test "an empty response body" do
-      assert %{} == Client.process_response_body("{}")
+      assert %{} == HttpClient.process_response_body("{}")
     end
   end
 end

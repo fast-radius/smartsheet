@@ -7,7 +7,7 @@ defmodule Smartsheet.ParseResponse do
   failure: {:error, %Smartsheet.Response{}}
   """
 
-  def parse(Smartsheet.Sheets, {:get, _arity}, response = %HTTPoison.Response{}) do
+  def parse({:get_sheet, _arity}, response = %HTTPoison.Response{}) do
     case response.status_code do
       200 ->
         sheet = parse_sheet(response.body)
@@ -18,7 +18,7 @@ defmodule Smartsheet.ParseResponse do
     end
   end
 
-  def parse(Smartsheet.Sheets, {:create, _arity}, response = %HTTPoison.Response{}) do
+  def parse({:create_sheet, _arity}, response = %HTTPoison.Response{}) do
     case response.status_code do
       200 ->
         sheet = parse_sheet(response.body.result)
@@ -29,7 +29,7 @@ defmodule Smartsheet.ParseResponse do
     end
   end
 
-  def parse(Smartsheet.Rows, {:add_to_sheet, _arity}, response = %HTTPoison.Response{}) do
+  def parse({:add_rows, _arity}, response = %HTTPoison.Response{}) do
     case response.status_code do
       200 ->
         rows = parse_rows(response.body.result)
@@ -40,7 +40,7 @@ defmodule Smartsheet.ParseResponse do
     end
   end
 
-  def parse(Smartsheet.Rows, {:update, _arity}, response = %HTTPoison.Response{}) do
+  def parse({:update_rows, _arity}, response = %HTTPoison.Response{}) do
     case response.status_code do
       200 ->
         rows = parse_rows(response.body.result)

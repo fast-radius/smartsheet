@@ -24,4 +24,28 @@ defmodule Smartsheet.Row do
     :row_number,
     :version
   ]
+
+  @type t :: %__MODULE__{
+          id: any,
+          sheet_id: any,
+          access_level: any,
+          attachments: any,
+          cells: any,
+          columns: any,
+          conditional_format: any,
+          created_at: any,
+          created_by: any,
+          discussions: any,
+          expanded: any,
+          filtered_out: any,
+          format: any,
+          in_critical_path: any,
+          locked: any,
+          locked_for_user: any,
+          modified_at: any,
+          modified_by: any,
+          permalink: any,
+          row_number: any,
+          version: any
+        }
 end
