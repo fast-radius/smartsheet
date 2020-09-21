@@ -33,4 +33,37 @@ defmodule Smartsheet.Sheet do
     :version,
     :workspace
   ]
+
+  @type t :: %__MODULE__{
+          id: any,
+          from_id: any,
+          owner_id: any,
+          access_level: any,
+          attachments: any,
+          columns: any,
+          created_at: any,
+          cross_sheet_references: any,
+          dependencies_enabled: any,
+          discussions: any,
+          effective_attachment_options: any,
+          favorite: any,
+          gantt_enabled: any,
+          has_summary_fields: any,
+          modified_at: any,
+          name: any,
+          owner: any,
+          permalink: any,
+          project_settings: any,
+          read_only: any,
+          resource_management_enabled: any,
+          rows: any,
+          show_parent_rows_for_filters: any,
+          source: any,
+          summary: any,
+          total_row_count: any,
+          user_permissions: any,
+          user_settings: any,
+          version: any,
+          workspace: any
+        }
 end

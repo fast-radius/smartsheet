@@ -294,7 +294,7 @@ defmodule Smartsheet.MockClient.ResponseFixtures do
     })
   end
 
-  def update_rows_success(rows) do
+  def update_rows_success(rows \\ []) do
     format_response(%HTTPoison.Response{
       body: %{
         message: "SUCCESS",

@@ -6,6 +6,13 @@ defmodule Smartsheet.Response do
     :status_code
   ]
 
+  @type t :: %__MODULE__{
+          status_code: any,
+          body: any,
+          headers: any,
+          request: Smartsheet.Request.t()
+        }
+
   def format(%HTTPoison.Response{} = response) do
     %Smartsheet.Response{
       request: Smartsheet.Request.format(response.request),

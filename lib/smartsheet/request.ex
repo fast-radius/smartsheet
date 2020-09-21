@@ -8,6 +8,15 @@ defmodule Smartsheet.Request do
     :url
   ]
 
+  @type t :: %__MODULE__{
+          method: any,
+          url: any,
+          headers: any,
+          body: any,
+          params: any,
+          options: any
+        }
+
   def format(%HTTPoison.Request{} = request) do
     %Smartsheet.Request{
       body: request.body,
