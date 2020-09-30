@@ -1,3 +1,3 @@
 use Mix.Config
 
-config :smartsheet, client: Smartsheet.MockClient
+config :smartsheet, api_key: "Test123"

@@ -89,12 +89,12 @@ defmodule Smartsheet.ParseResponse do
     Enum.map(columns, fn column -> struct(Smartsheet.Column, column) end)
   end
 
-  def success_response(response = %HTTPoison.Response{}, data) do
+  defp success_response(response = %HTTPoison.Response{}, data) do
     formatted_response = Smartsheet.Response.format(response)
     {:ok, formatted_response, data}
   end
 
-  def error_response(response = %HTTPoison.Response{}) do
+  defp error_response(response = %HTTPoison.Response{}) do
     formatted_response = Smartsheet.Response.format(response)
     {:error, formatted_response}
   end

@@ -81,7 +81,7 @@ defmodule Smartsheet.HttpClientTest do
     test "it appends Authorization Headers" do
       headers = {"Content-Type", "application/json"}
 
-      assert [{:Authorization, "Bearer "} | {"Content-Type", "application/json"}] ==
+      assert [{:Authorization, "Bearer Test123"} | {"Content-Type", "application/json"}] ==
                HttpClient.process_request_headers(headers)
     end
   end
