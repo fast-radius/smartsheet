@@ -9,6 +9,33 @@ defmodule Smartsheet.HttpClient do
   @behaviour ClientBehaviour
 
   @impl ClientBehaviour
+  def add_webhook(attributes) do
+    {:ok, response = %HTTPoison.Response{}} =
+      post("/webhooks", attributes, "Content-Type": "application/json")
+
+    Smartsheet.ParseResponse.parse(__ENV__.function, response)
+  end
+
+  @impl ClientBehaviour
+  def update_webhook(webhook_id, attributes) do
+    path = "/webhooks/#{webhook_id}"
+
+    {:ok, response = %HTTPoison.Response{}} =
+      put(path, attributes, "Content-Type": "application/json")
+
+    Smartsheet.ParseResponse.parse(__ENV__.function, response)
+  end
+
+  @impl ClientBehaviour
+  def delete_webhook(webhook_id) do
+    path = "//webhooks/#{webhook_id}"
+
+    {:ok, response = %HTTPoison.Response{}} = delete(path, "Content-Type": "application/json")
+
+    Smartsheet.ParseResponse.parse(__ENV__.function, response)
+  end
+
+  @impl ClientBehaviour
   def get_sheet(sheet_id, options \\ []) do
     {:ok, response = %HTTPoison.Response{}} = get("/sheets/#{sheet_id}", [], params: options)
 
