@@ -85,4 +85,55 @@ defmodule Smartsheet.ParseResponseTest do
       assert {:error, %Smartsheet.Response{}} = wrapped_response
     end
   end
+
+  describe ":add_webhook" do
+    test "success" do
+      {:ok, raw_http_response} = ResponseFixtures.create_webhook_success()
+
+      wrapped_response = ParseResponse.parse({:add_webhook, 1}, raw_http_response)
+
+      assert {:ok, %Smartsheet.Response{}, %Smartsheet.Webhook{}} = wrapped_response
+    end
+
+    test "failure" do
+      {:ok, raw_http_response} = ResponseFixtures.create_webhook_failure()
+      wrapped_response = ParseResponse.parse({:add_webhook, 1}, raw_http_response)
+
+      assert {:error, %Smartsheet.Response{}} = wrapped_response
+    end
+  end
+
+  describe ":update_webhook" do
+    test "success" do
+      {:ok, raw_http_response} = ResponseFixtures.update_webhook_success()
+
+      wrapped_response = ParseResponse.parse({:update_webhook, 1}, raw_http_response)
+
+      assert {:ok, %Smartsheet.Response{}, %Smartsheet.Webhook{}} = wrapped_response
+    end
+
+    test "failure" do
+      {:ok, raw_http_response} = ResponseFixtures.update_webhook_failure()
+      wrapped_response = ParseResponse.parse({:update_webhook, 1}, raw_http_response)
+
+      assert {:error, %Smartsheet.Response{}} = wrapped_response
+    end
+  end
+
+  describe ":delete_webhook" do
+    test "success" do
+      {:ok, raw_http_response} = ResponseFixtures.update_webhook_success()
+
+      wrapped_response = ParseResponse.parse({:delete_webhook, 1}, raw_http_response)
+
+      assert {:ok, %Smartsheet.Response{}, %{}} = wrapped_response
+    end
+
+    test "failure" do
+      {:ok, raw_http_response} = ResponseFixtures.delete_webhook_failure()
+      wrapped_response = ParseResponse.parse({:delete_webhook, 1}, raw_http_response)
+
+      assert {:error, %Smartsheet.Response{}} = wrapped_response
+    end
+  end
 end
