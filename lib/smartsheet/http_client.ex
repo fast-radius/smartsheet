@@ -28,9 +28,17 @@ defmodule Smartsheet.HttpClient do
 
   @impl ClientBehaviour
   def delete_webhook(webhook_id) do
-    path = "//webhooks/#{webhook_id}"
+    path = "/webhooks/#{webhook_id}"
 
     {:ok, response = %HTTPoison.Response{}} = delete(path, "Content-Type": "application/json")
+
+    Smartsheet.ParseResponse.parse(__ENV__.function, response)
+  end
+
+  def list_webhooks() do
+    path = "/webhooks"
+
+    {:ok, response = %HTTPoison.Response{}} = get(path, "Content-Type": "application/json")
 
     Smartsheet.ParseResponse.parse(__ENV__.function, response)
   end

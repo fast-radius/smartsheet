@@ -109,7 +109,7 @@ defmodule Smartsheet.ParseResponseTest do
 
       wrapped_response = ParseResponse.parse({:update_webhook, 1}, raw_http_response)
 
-      assert {:ok, %Smartsheet.Response{}, %Smartsheet.Webhook{}} = wrapped_response
+      assert {:ok, %Smartsheet.Response{}, %Smartsheet.Webhook{enabled: true}} = wrapped_response
     end
 
     test "failure" do
@@ -132,6 +132,23 @@ defmodule Smartsheet.ParseResponseTest do
     test "failure" do
       {:ok, raw_http_response} = ResponseFixtures.delete_webhook_failure()
       wrapped_response = ParseResponse.parse({:delete_webhook, 1}, raw_http_response)
+
+      assert {:error, %Smartsheet.Response{}} = wrapped_response
+    end
+  end
+
+  describe ":list_webhooks" do
+    test "success" do
+      {:ok, raw_http_response} = ResponseFixtures.list_webhooks_success()
+
+      wrapped_response = ParseResponse.parse({:list_webhooks, 1}, raw_http_response)
+
+      assert {:ok, %Smartsheet.Response{}, [%Smartsheet.Webhook{}]} = wrapped_response
+    end
+
+    test "failure" do
+      {:ok, raw_http_response} = ResponseFixtures.list_webhooks_failure()
+      wrapped_response = ParseResponse.parse({:list_webhooks, 1}, raw_http_response)
 
       assert {:error, %Smartsheet.Response{}} = wrapped_response
     end
