@@ -329,6 +329,326 @@ defmodule Smartsheet.MockClient.ResponseFixtures do
     })
   end
 
+  def create_webhook_failure() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        errorCode: 1012,
+        message:
+          "Required object attribute(s) are missing from your request: webhook.callbackUrl.",
+        refId: "lmxovddkmhxo"
+      },
+      headers: [
+        {"Date", "Tue, 08 Sep 2020 16:33:15 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "180"},
+        {"Connection", "keep-alive"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "{ \"name\": \"test 1\" } ",
+        headers: [
+          Authorization: "Bearer 123",
+          "Content-Type": "application/json"
+        ],
+        method: :post,
+        options: [],
+        params: %{},
+        url: "https://api.smartsheet.com/2.0/webhooks"
+      },
+      request_url: "https://api.smartsheet.com/2.0/webhooks",
+      status_code: 400
+    })
+  end
+
+  def create_webhook_success() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        message: "SUCCESS",
+        result: %{
+          id: 8_336_906_762_119_044,
+          name: "test 1",
+          scope: "sheet",
+          scope_object_id: 3_944_882_986_346_372,
+          subscope: %{
+            column_ids: [
+              3_882_534_776_924_036
+            ]
+          },
+          events: [
+            "*.*"
+          ],
+          callback_url: "https =>//0205c71fedd0.ngrok.io/api/v1/verify_webhook",
+          shared_secret: "6gab00fcynp9vh6p29vfi3qne7",
+          enabled: false,
+          status: "NEW_NOT_VERIFIED",
+          version: 1,
+          created_at: "2020-10-06T15:01:14Z",
+          modified_at: "2020-10-06T15:01:14Z"
+        },
+        result_code: 0,
+        version: 4
+      },
+      headers: [
+        {"Date", "Tue, 08 Sep 2020 16:31:31 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "358"},
+        {"Connection", "keep-alive"},
+        {"Cache-Control", "no-cache, no-store, must-revalidate"},
+        {"Pragma", "no-cache"},
+        {"Expires", "0"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "{ \"name\": \"test 1\" } ",
+        headers: [
+          Authorization: "Bearer 123",
+          "Content-Type": "application/json"
+        ],
+        method: :post,
+        options: [],
+        params: %{},
+        url: "https://api.smartsheet.com/2.0/webhooks"
+      },
+      request_url: "https://api.smartsheet.com/2.0/webhooks",
+      status_code: 200
+    })
+  end
+
+  def update_webhook_failure() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        errorCode: 1006,
+        message: "Not Found",
+        refId: "19a3k3trvdizp"
+      },
+      headers: [
+        {"Date", "Tue, 08 Sep 2020 16:33:15 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "180"},
+        {"Connection", "keep-alive"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "{ \"enabled\": \"true\" } ",
+        headers: [
+          Authorization: "Bearer 123",
+          "Content-Type": "application/json"
+        ],
+        method: :put,
+        options: [],
+        params: %{},
+        url: "https://api.smartsheet.com/2.0/webhooks/1407028569630596"
+      },
+      request_url: "https://api.smartsheet.com/2.0/webhooks/1407028569630596",
+      status_code: 400
+    })
+  end
+
+  def update_webhook_success() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        message: "SUCCESS",
+        result_code: 0,
+        result: %{
+          id: 8_336_906_762_119_044,
+          name: "test 1",
+          scope: "sheet",
+          scope_object_id: 3_944_882_986_346_372,
+          subscope: %{
+            column_ids: [
+              3_882_534_776_924_036
+            ]
+          },
+          events: [
+            "*.*"
+          ],
+          callback_url: "https =>//0205c71fedd0.ngrok.io/api/v1/verify_webhook",
+          shared_secret: "6gab00fcynp9vh6p29vfi3qne7",
+          enabled: true,
+          status: "NEW_NOT_VERIFIED",
+          version: 1,
+          created_at: "2020-10-06T15:01:14Z",
+          modified_at: "2020-10-06T15:01:14Z"
+        }
+      },
+      headers: [
+        {"Date", "Tue, 08 Sep 2020 16:31:31 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "358"},
+        {"Connection", "keep-alive"},
+        {"Cache-Control", "no-cache, no-store, must-revalidate"},
+        {"Pragma", "no-cache"},
+        {"Expires", "0"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "{ \"name\": \"test 1\" } ",
+        headers: [
+          Authorization: "Bearer 123",
+          "Content-Type": "application/json"
+        ],
+        method: :put,
+        options: [],
+        params: %{},
+        url: "https://api.smartsheet.com/2.0/webhooks/1407028569630596"
+      },
+      request_url: "https://api.smartsheet.com/2.0/webhooks/1407028569630596",
+      status_code: 200
+    })
+  end
+
+  def delete_webhook_failure() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        error_code: 1006,
+        message: "Not Found",
+        refId: "19a3k3trvdizp"
+      },
+      headers: [
+        {"Date", "Tue, 08 Sep 2020 16:33:15 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "180"},
+        {"Connection", "keep-alive"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "",
+        headers: [
+          Authorization: "Bearer 123",
+          "Content-Type": "application/json"
+        ],
+        method: :delete,
+        options: [],
+        params: %{},
+        url: "https://api.smartsheet.com/2.0/webhooks/1407028569630596"
+      },
+      request_url: "https://api.smartsheet.com/2.0/webhooks/1407028569630596",
+      status_code: 400
+    })
+  end
+
+  def delete_webhook_success() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        message: "SUCCESS",
+        result_code: 0
+      },
+      headers: [
+        {"Date", "Tue, 08 Sep 2020 16:31:31 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "358"},
+        {"Connection", "keep-alive"},
+        {"Cache-Control", "no-cache, no-store, must-revalidate"},
+        {"Pragma", "no-cache"},
+        {"Expires", "0"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "",
+        headers: [
+          Authorization: "Bearer 123",
+          "Content-Type": "application/json"
+        ],
+        method: :delete,
+        options: [],
+        params: %{},
+        url: "https://api.smartsheet.com/2.0/webhooks/1407028569630596"
+      },
+      request_url: "https://api.smartsheet.com/2.0/webhooks/1407028569630596",
+      status_code: 200
+    })
+  end
+
+  def list_webhooks_failure() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        error_code: 1006,
+        message: "Not Found",
+        refId: "19a3k3trvdizp"
+      },
+      headers: [
+        {"Date", "Tue, 08 Sep 2020 16:31:31 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "358"},
+        {"Connection", "keep-alive"},
+        {"Cache-Control", "no-cache, no-store, must-revalidate"},
+        {"Pragma", "no-cache"},
+        {"Expires", "0"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "",
+        headers: [
+          Authorization: "Bearer 123",
+          "Content-Type": "application/json"
+        ],
+        method: :delete,
+        options: [],
+        params: %{},
+        url: "https://api.smartsheet.com/2.0/webhooks/1407028569630596"
+      },
+      request_url: "https://api.smartsheet.com/2.0/webhooks/1407028569630596",
+      status_code: 400
+    })
+  end
+
+  def list_webhooks_success() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        page_number: 1,
+        page_size: 100,
+        total_pages: 1,
+        total_count: 6,
+        data: [
+          %{
+            id: 351_570_421_409_668,
+            name: "test 1",
+            scope: "sheet",
+            scope_object_id: 3_944_882_986_346_372,
+            subscope: %{
+              column_ids: [
+                3_882_534_776_924_036
+              ]
+            },
+            events: [
+              "*.*"
+            ],
+            callback_url: "https://0205c71fedd0.ngrok.io/api/v1/verify_webhook",
+            shared_secret: "9a0jjhm6joik5zct5ptan8rku",
+            enabled: false,
+            status: "NEW_NOT_VERIFIED",
+            version: 1,
+            created_at: "2020-10-07T16:24:40Z",
+            modified_at: "2020-10-07T16:24:40Z"
+          }
+        ]
+      },
+      headers: [
+        {"Date", "Tue, 08 Sep 2020 16:31:31 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "358"},
+        {"Connection", "keep-alive"},
+        {"Cache-Control", "no-cache, no-store, must-revalidate"},
+        {"Pragma", "no-cache"},
+        {"Expires", "0"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "",
+        headers: [
+          Authorization: "Bearer 123",
+          "Content-Type": "application/json"
+        ],
+        method: :delete,
+        options: [],
+        params: %{},
+        url: "https://api.smartsheet.com/2.0/webhooks/1407028569630596"
+      },
+      request_url: "https://api.smartsheet.com/2.0/webhooks/1407028569630596",
+      status_code: 200
+    })
+  end
+
   defp format_response(response = %HTTPoison.Response{}) do
     {:ok, response}
   end

@@ -7,6 +7,39 @@ defmodule Smartsheet.ParseResponse do
   failure: {:error, %Smartsheet.Response{}}
   """
 
+  def parse({function, _arity}, response = %HTTPoison.Response{})
+      when function in [:add_webhook, :update_webhook] do
+    case response.status_code do
+      200 ->
+        webhook = struct(Smartsheet.Webhook, response.body.result)
+        success_response(response, webhook)
+
+      _ ->
+        error_response(response)
+    end
+  end
+
+  def parse({:delete_webhook, _arity}, response = %HTTPoison.Response{}) do
+    case response.status_code do
+      200 ->
+        success_response(response, %{})
+
+      _ ->
+        error_response(response)
+    end
+  end
+
+  def parse({:list_webhooks, _arity}, response = %HTTPoison.Response{}) do
+    case response.status_code do
+      200 ->
+        webhooks = parse_webhooks(response.body)
+        success_response(response, webhooks)
+
+      _ ->
+        error_response(response)
+    end
+  end
+
   def parse({:get_sheet, _arity}, response = %HTTPoison.Response{}) do
     case response.status_code do
       200 ->
@@ -49,6 +82,12 @@ defmodule Smartsheet.ParseResponse do
       _ ->
         error_response(response)
     end
+  end
+
+  defp parse_webhooks(webhooks_response) do
+    Enum.map(webhooks_response.data, fn webhook_response ->
+      struct(Smartsheet.Webhook, webhook_response)
+    end)
   end
 
   defp parse_rows(row_maps) do
