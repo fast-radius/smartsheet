@@ -6,7 +6,7 @@ defmodule Smartsheet.MixProject do
       app: :smartsheet,
       description: "HTTP wrapper around the Smartsheet API",
       package: package(),
-      version: "2.1.0",
+      version: "2.1.1",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps()
@@ -25,7 +25,7 @@ defmodule Smartsheet.MixProject do
     [
       {:httpoison, "~> 1.6"},
       {:poison, "~> 3.1"},
-      {:recase, "~> 0.5"},
+      {:recase, "0.7.0"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
