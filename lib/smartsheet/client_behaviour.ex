@@ -25,4 +25,8 @@ defmodule Smartsheet.ClientBehaviour do
 
   @callback delete_webhook(String.t()) ::
               {:ok, Smartsheet.Respone.t(), map()} | {:error, Smartsheet.Response.t()}
+
+  @callback list_webhooks() ::
+              {:ok, Smartsheet.Response.t(), [Smartsheet.Webhook.t()]}
+              | {:error, Smartsheet.Response.t()}
 end

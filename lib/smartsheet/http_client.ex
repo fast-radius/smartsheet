@@ -35,6 +35,7 @@ defmodule Smartsheet.HttpClient do
     Smartsheet.ParseResponse.parse(__ENV__.function, response)
   end
 
+  @impl ClientBehaviour
   def list_webhooks() do
     path = "/webhooks"
 
