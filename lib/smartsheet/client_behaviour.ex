@@ -6,27 +6,35 @@ defmodule Smartsheet.ClientBehaviour do
   @callback create_sheet(map()) ::
               {:ok, Smartsheet.Response.t(), Smartsheet.Sheet.t()}
               | {:error, Smartsheet.Response.t()}
+              | {:internal_error, atom()}
 
   @callback add_rows(String.t(), any) ::
               {:ok, Smartsheet.Response.t(), [Smartsheet.Row.t()]}
               | {:error, Smartsheet.Response.t()}
+              | {:internal_error, atom()}
 
   @callback update_rows(String.t(), any) ::
               {:ok, Smartsheet.Response.t(), [Smartsheet.Row.t()]}
               | {:error, Smartsheet.Response.t()}
+              | {:internal_error, atom()}
 
   @callback add_webhook(map()) ::
               {:ok, Smartsheet.Response.t(), Smartsheet.Webhook.t()}
               | {:error, Smartsheet.Response.t()}
+              | {:internal_error, atom()}
 
   @callback update_webhook(String.t(), map()) ::
               {:ok, Smartsheet.Respone.t(), Smartsheet.Webhook.t()}
               | {:error, Smartsheet.Response.t()}
+              | {:internal_error, atom()}
 
   @callback delete_webhook(String.t()) ::
-              {:ok, Smartsheet.Respone.t(), map()} | {:error, Smartsheet.Response.t()}
+              {:ok, Smartsheet.Respone.t(), map()}
+              | {:error, Smartsheet.Response.t()}
+              | {:internal_error, atom()}
 
   @callback list_webhooks() ::
               {:ok, Smartsheet.Response.t(), [Smartsheet.Webhook.t()]}
               | {:error, Smartsheet.Response.t()}
+              | {:internal_error, atom()}
 end

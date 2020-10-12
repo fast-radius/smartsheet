@@ -10,71 +10,100 @@ defmodule Smartsheet.HttpClient do
 
   @impl ClientBehaviour
   def add_webhook(attributes) do
-    {:ok, response = %HTTPoison.Response{}} =
-      post("/webhooks", attributes, "Content-Type": "application/json")
+    case post("/webhooks", attributes, "Content-Type": "application/json") do
+      {:ok, response = %HTTPoison.Response{}} ->
+        Smartsheet.ParseResponse.parse(__ENV__.function, response)
 
-    Smartsheet.ParseResponse.parse(__ENV__.function, response)
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:internal_error, reason}
+    end
   end
 
   @impl ClientBehaviour
   def update_webhook(webhook_id, attributes) do
     path = "/webhooks/#{webhook_id}"
 
-    {:ok, response = %HTTPoison.Response{}} =
-      put(path, attributes, "Content-Type": "application/json")
+    case put(path, attributes, "Content-Type": "application/json") do
+      {:ok, response = %HTTPoison.Response{}} ->
+        Smartsheet.ParseResponse.parse(__ENV__.function, response)
 
-    Smartsheet.ParseResponse.parse(__ENV__.function, response)
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:internal_error, reason}
+    end
   end
 
   @impl ClientBehaviour
   def delete_webhook(webhook_id) do
     path = "/webhooks/#{webhook_id}"
 
-    {:ok, response = %HTTPoison.Response{}} = delete(path, "Content-Type": "application/json")
+    case delete(path, "Content-Type": "application/json") do
+      {:ok, response = %HTTPoison.Response{}} ->
+        Smartsheet.ParseResponse.parse(__ENV__.function, response)
 
-    Smartsheet.ParseResponse.parse(__ENV__.function, response)
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:internal_error, reason}
+    end
   end
 
   @impl ClientBehaviour
   def list_webhooks() do
     path = "/webhooks"
 
-    {:ok, response = %HTTPoison.Response{}} = get(path, "Content-Type": "application/json")
+    case get(path, "Content-Type": "application/json") do
+      {:ok, response = %HTTPoison.Response{}} ->
+        Smartsheet.ParseResponse.parse(__ENV__.function, response)
 
-    Smartsheet.ParseResponse.parse(__ENV__.function, response)
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:internal_error, reason}
+    end
   end
 
   @impl ClientBehaviour
   def get_sheet(sheet_id, options \\ []) do
-    {:ok, response = %HTTPoison.Response{}} = get("/sheets/#{sheet_id}", [], params: options)
+    case get("/sheets/#{sheet_id}", [], params: options) do
+      {:ok, response = %HTTPoison.Response{}} ->
+        Smartsheet.ParseResponse.parse(__ENV__.function, response)
 
-    Smartsheet.ParseResponse.parse(__ENV__.function, response)
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:internal_error, reason}
+    end
   end
 
   @impl ClientBehaviour
   def create_sheet(attributes) do
-    {:ok, response = %HTTPoison.Response{}} =
-      post("/sheets", attributes, "Content-Type": "application/json")
+    case post("/sheets", attributes, "Content-Type": "application/json") do
+      {:ok, response = %HTTPoison.Response{}} ->
+        Smartsheet.ParseResponse.parse(__ENV__.function, response)
 
-    Smartsheet.ParseResponse.parse(__ENV__.function, response)
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:internal_error, reason}
+    end
   end
 
   @impl ClientBehaviour
   def add_rows(sheet_id, rows) do
     path = "/sheets/#{sheet_id}/rows"
 
-    {:ok, response = %HTTPoison.Response{}} = post(path, rows, "Content-Type": "application/json")
+    case post(path, rows, "Content-Type": "application/json") do
+      {:ok, %HTTPoison.Response{} = response} ->
+        Smartsheet.ParseResponse.parse(__ENV__.function, response)
 
-    Smartsheet.ParseResponse.parse(__ENV__.function, response)
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:internal_error, reason}
+    end
   end
 
   @impl ClientBehaviour
   def update_rows(sheet_id, rows) do
     path = "/sheets/#{sheet_id}/rows"
 
-    {:ok, response = %HTTPoison.Response{}} = put(path, rows, "Content-Type": "application/json")
+    case put(path, rows, "Content-Type": "application/json") do
+      {:ok, response = %HTTPoison.Response{}} ->
+        Smartsheet.ParseResponse.parse(__ENV__.function, response)
 
-    Smartsheet.ParseResponse.parse(__ENV__.function, response)
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:internal_error, reason}
+    end
   end
 
   @impl HTTPoison.Base
