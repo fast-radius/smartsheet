@@ -106,6 +106,19 @@ defmodule Smartsheet.HttpClient do
     end
   end
 
+  @impl ClientBehaviour
+  def get_row(sheet_id, row_id) do
+    path = "/sheets/#{sheet_id}/rows/#{row_id}"
+
+    case get(path, "Content-Type": "application/json") do
+      {:ok, response = %HTTPoison.Response{}} ->
+        Smartsheet.ParseResponse.parse(__ENV__.function, response)
+
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:internal_error, reason}
+    end
+  end
+
   @impl HTTPoison.Base
   def process_request_body(body) do
     request_body =

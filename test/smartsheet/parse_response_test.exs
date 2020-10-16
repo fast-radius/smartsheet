@@ -86,6 +86,27 @@ defmodule Smartsheet.ParseResponseTest do
     end
   end
 
+  describe ":get_row" do
+    test "success" do
+      {:ok, raw_http_response} = ResponseFixtures.get_row_success()
+
+      wrapped_response = ParseResponse.parse({:get_row, 1}, raw_http_response)
+
+      assert {:ok, %Smartsheet.Response{},
+              %Smartsheet.Row{
+                id: 2_361_756_178_769_796,
+                cells: [%Smartsheet.Cell{value: "Revision 1"}]
+              }} = wrapped_response
+    end
+
+    test "failure" do
+      {:ok, raw_http_response} = ResponseFixtures.update_rows_failure()
+      wrapped_response = ParseResponse.parse({:get_row, 1}, raw_http_response)
+
+      assert {:error, %Smartsheet.Response{}} = wrapped_response
+    end
+  end
+
   describe ":add_webhook" do
     test "success" do
       {:ok, raw_http_response} = ResponseFixtures.create_webhook_success()
