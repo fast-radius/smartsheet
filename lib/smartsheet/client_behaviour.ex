@@ -22,6 +22,11 @@ defmodule Smartsheet.ClientBehaviour do
               | {:error, Smartsheet.Response.t()}
               | {:internal_error, atom()}
 
+  @callback get_row(String.t(), String.t()) ::
+              {:ok, Smartsheet.Response.t(), Smartsheet.Row.t()}
+              | {:error, Smartsheet.Response.t()}
+              | {:internal_error, atom()}
+
   @callback add_webhook(map()) ::
               {:ok, Smartsheet.Response.t(), Smartsheet.Webhook.t()}
               | {:error, Smartsheet.Response.t()}

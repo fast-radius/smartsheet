@@ -411,6 +411,86 @@ defmodule Smartsheet.MockClient.ResponseFixtures do
     })
   end
 
+  def get_row_failure() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        detail: %{index: 0, row_id: 4_464_204_502_329_220},
+        error_code: 1036,
+        message: "Something bad happened",
+        ref_id: "16xhx3nbo7ely"
+      },
+      headers: [
+        {"Date", "Tue, 08 Sep 2020 16:33:15 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "180"},
+        {"Connection", "keep-alive"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "",
+        headers: [
+          Authorization: "Bearer 123",
+          "Content-Type": "application/json"
+        ],
+        method: :get,
+        options: [],
+        params: %{},
+        url: "https://api.smartsheet.com/2.0/sheets/3944882986346372/rows/2361756178769796"
+      },
+      request_url: "https://api.smartsheet.com/2.0/sheets/3944882986346372/rows/2361756178769796",
+      status_code: 400
+    })
+  end
+
+  def get_row_success() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        message: "SUCCESS",
+        result: %{
+          id: 2_361_756_178_769_796,
+          sheet_id: 4_583_173_393_803_140,
+          row_number: 1,
+          expanded: true,
+          cells: [
+            %{
+              column_type: "TEXT_NUMBER",
+              value: "Revision 1",
+              display_value: "Revision 1",
+              column_id: 4_583_173_393_803_140
+            }
+          ],
+          created_at: "2012-07-24T23:10:55-07:00",
+          modified_at: "2012-07-24T23:14:27-07:00"
+        },
+        result_code: 0,
+        version: 4
+      },
+      headers: [
+        {"Date", "Tue, 08 Sep 2020 16:31:31 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "358"},
+        {"Connection", "keep-alive"},
+        {"Cache-Control", "no-cache, no-store, must-revalidate"},
+        {"Pragma", "no-cache"},
+        {"Expires", "0"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "",
+        headers: [
+          Authorization: "Bearer 123",
+          "Content-Type": "application/json"
+        ],
+        method: :get,
+        options: [],
+        params: %{},
+        url: "https://api.smartsheet.com/2.0/sheets/3944882986346372/rows/2361756178769796"
+      },
+      request_url: "https://api.smartsheet.com/2.0/sheets/3944882986346372/rows/2361756178769796",
+      status_code: 200
+    })
+  end
+
   def create_webhook_failure() do
     format_response(%HTTPoison.Response{
       body: %{

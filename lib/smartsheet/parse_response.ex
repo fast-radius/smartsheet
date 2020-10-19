@@ -95,6 +95,17 @@ defmodule Smartsheet.ParseResponse do
     end
   end
 
+  def parse({:get_row, _arity}, response = %HTTPoison.Response{}) do
+    case response.status_code do
+      200 ->
+        row = parse_row(response.body.result)
+        success_response(response, row)
+
+      _ ->
+        error_response(response)
+    end
+  end
+
   defp parse_webhooks(webhooks_response) do
     Enum.map(webhooks_response.data, fn webhook_response ->
       struct(Smartsheet.Webhook, webhook_response)
