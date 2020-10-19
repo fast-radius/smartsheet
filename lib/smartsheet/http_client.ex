@@ -81,6 +81,17 @@ defmodule Smartsheet.HttpClient do
   end
 
   @impl ClientBehaviour
+  def get_columns(sheet_id, options \\ []) do
+    case get("/sheets/#{sheet_id}/columns", [], params: options) do
+      {:ok, response = %HTTPoison.Response{}} ->
+        Smartsheet.ParseResponse.parse(__ENV__.function, response)
+
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:internal_error, reason}
+    end
+  end
+
+  @impl ClientBehaviour
   def add_rows(sheet_id, rows) do
     path = "/sheets/#{sheet_id}/rows"
 

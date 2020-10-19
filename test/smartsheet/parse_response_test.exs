@@ -22,6 +22,22 @@ defmodule Smartsheet.ParseResponseTest do
     end
   end
 
+  describe ":get_columns" do
+    test "success" do
+      {:ok, raw_http_response} = ResponseFixtures.get_columns_success()
+      wrapped_response = ParseResponse.parse({:get_columns, 2}, raw_http_response)
+
+      assert {:ok, %Smartsheet.Response{}, columns} = wrapped_response
+      assert Enum.all?(columns, fn col -> match?(%Smartsheet.Column{}, col) end)
+    end
+
+    test "failure" do
+      {:ok, raw_http_response} = ResponseFixtures.get_columns_failure()
+      wrapped_response = ParseResponse.parse({:get_columns, 2}, raw_http_response)
+      assert {:error, %Smartsheet.Response{}} = wrapped_response
+    end
+  end
+
   describe ":create_sheet" do
     test "success" do
       {:ok, raw_http_response} = ResponseFixtures.create_sheet_success()

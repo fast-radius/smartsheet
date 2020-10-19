@@ -111,6 +111,88 @@ defmodule Smartsheet.MockClient.ResponseFixtures do
     })
   end
 
+  def get_columns_success() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        data: [
+          %{
+            id: 6_118_014_721_517_444,
+            index: 0,
+            system_column_type: "CREATED_DATE",
+            title: "Created",
+            type: "DATETIME",
+            validation: false,
+            version: 0,
+            width: 55
+          },
+          %{
+            id: 8_932_764_488_624_004,
+            index: 10,
+            locked: true,
+            locked_for_user: false,
+            options: [
+              "Option 1",
+              "Option 2",
+              "Option 3"
+            ],
+            title: "Option List",
+            type: "PICKLIST",
+            validation: false,
+            version: 0,
+            width: 125
+          }
+        ],
+        page_number: 1,
+        page_size: 100,
+        total_count: 78,
+        total_pages: 1
+      },
+      headers: [
+        {"Date", "Mon, 19 Oct 2020 18:48:48 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Transfer-Encoding", "chunked"},
+        {"Connection", "close"},
+        {"Cache-Control", "no-cache, no-store, must-revalidate"},
+        {"Pragma", "no-cache"},
+        {"Expires", "0"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "\"\"",
+        headers: [Authorization: "Bearer 123"],
+        method: :get,
+        options: [params: [level: 2]],
+        params: [level: 2],
+        url: "https://api.smartsheet.com/2.0/sheets/5310139273111428/columns?level=2"
+      },
+      request_url: "https://api.smartsheet.com/2.0/sheets/5310139273111428/columns?level=2",
+      status_code: 200
+    })
+  end
+
+  def get_columns_failure() do
+    format_response(%HTTPoison.Response{
+      body: %{error_code: 1006, message: "Not Found", ref_id: "kze909mw90yv"},
+      headers: [
+        {"Date", "Mon, 19 Oct 2020 19:02:14 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "79"},
+        {"Connection", "close"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "\"\"",
+        headers: [Authorization: "Bearer 123"],
+        method: :get,
+        options: [params: []],
+        params: [],
+        url: "https://api.smartsheet.com/2.0/sheets/1/columns"
+      },
+      request_url: "https://api.smartsheet.com/2.0/sheets/1/columns",
+      status_code: 404
+    })
+  end
+
   def create_sheet_success() do
     format_response(%HTTPoison.Response{
       body: %{
