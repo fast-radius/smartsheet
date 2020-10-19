@@ -329,7 +329,7 @@ defmodule Smartsheet.MockClient.ResponseFixtures do
     })
   end
 
-  def update_rows_failure() do
+  def get_row_failure() do
     format_response(%HTTPoison.Response{
       body: %{
         detail: %{index: 0, row_id: 4_464_204_502_329_220},

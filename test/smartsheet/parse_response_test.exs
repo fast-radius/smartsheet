@@ -100,7 +100,7 @@ defmodule Smartsheet.ParseResponseTest do
     end
 
     test "failure" do
-      {:ok, raw_http_response} = ResponseFixtures.update_rows_failure()
+      {:ok, raw_http_response} = ResponseFixtures.get_row_failure()
       wrapped_response = ParseResponse.parse({:get_row, 1}, raw_http_response)
 
       assert {:error, %Smartsheet.Response{}} = wrapped_response
