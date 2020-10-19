@@ -7,6 +7,10 @@ defmodule Smartsheet.ClientBehaviour do
               {:ok, Smartsheet.Response.t(), Smartsheet.Sheet.t()}
               | {:error, Smartsheet.Response.t()}
               | {:internal_error, atom()}
+  @callback get_columns(String.t(), List) ::
+              {:ok, Smartsheet.Response.t(), [Smartsheet.Column]}
+              | {:error, Smartsheet.Response.t()}
+              | {:internal_error, atom()}
 
   @callback add_rows(String.t(), any) ::
               {:ok, Smartsheet.Response.t(), [Smartsheet.Row.t()]}

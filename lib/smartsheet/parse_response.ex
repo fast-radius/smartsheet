@@ -51,6 +51,17 @@ defmodule Smartsheet.ParseResponse do
     end
   end
 
+  def parse({:get_columns, _arity}, response = %HTTPoison.Response{}) do
+    case response.status_code do
+      200 ->
+        columns = parse_columns(response.body.data)
+        success_response(response, columns)
+
+      _ ->
+        error_response(response)
+    end
+  end
+
   def parse({:create_sheet, _arity}, response = %HTTPoison.Response{}) do
     case response.status_code do
       200 ->
