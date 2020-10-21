@@ -98,7 +98,7 @@ defmodule Smartsheet.ParseResponse do
   def parse({:get_row, _arity}, response = %HTTPoison.Response{}) do
     case response.status_code do
       200 ->
-        row = parse_row(response.body.result)
+        row = parse_row(response.body)
         success_response(response, row)
 
       _ ->
