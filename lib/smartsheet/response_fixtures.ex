@@ -445,25 +445,20 @@ defmodule Smartsheet.MockClient.ResponseFixtures do
   def get_row_success() do
     format_response(%HTTPoison.Response{
       body: %{
-        message: "SUCCESS",
-        result: %{
-          id: 2_361_756_178_769_796,
-          sheet_id: 4_583_173_393_803_140,
-          row_number: 1,
-          expanded: true,
-          cells: [
-            %{
-              column_type: "TEXT_NUMBER",
-              value: "Revision 1",
-              display_value: "Revision 1",
-              column_id: 4_583_173_393_803_140
-            }
-          ],
-          created_at: "2012-07-24T23:10:55-07:00",
-          modified_at: "2012-07-24T23:14:27-07:00"
-        },
-        result_code: 0,
-        version: 4
+        id: 2_361_756_178_769_796,
+        sheet_id: 4_583_173_393_803_140,
+        row_number: 1,
+        expanded: true,
+        cells: [
+          %{
+            column_type: "TEXT_NUMBER",
+            value: "Revision 1",
+            display_value: "Revision 1",
+            column_id: 4_583_173_393_803_140
+          }
+        ],
+        created_at: "2012-07-24T23:10:55-07:00",
+        modified_at: "2012-07-24T23:14:27-07:00"
       },
       headers: [
         {"Date", "Tue, 08 Sep 2020 16:31:31 GMT"},
