@@ -110,10 +110,9 @@ defmodule Smartsheet.HttpClient do
     |> URI.to_string()
   end
 
-  @api_key Application.get_env(:smartsheet, :api_key) || System.get_env("SMARTSHEET_API_KEY")
   @impl HTTPoison.Base
   def process_request_headers(headers) do
-    [{:Authorization, "Bearer #{@api_key}"} | headers]
+    [{:Authorization, "Bearer #{api_key()}"} | headers]
   end
 
   @response_timeout Application.get_env(:smartsheet, :response_timeout) || 5000
@@ -128,5 +127,9 @@ defmodule Smartsheet.HttpClient do
     |> Poison.decode!()
     |> Recase.Enumerable.convert_keys(&Recase.to_snake/1)
     |> Smartsheet.Util.AtomizeKeys.atomize_keys()
+  end
+
+  defp api_key() do
+    Application.get_env(:smartsheet, :api_key) || System.get_env("SMARTSHEET_API_KEY")
   end
 end
