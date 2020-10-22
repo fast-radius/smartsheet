@@ -95,6 +95,16 @@ defmodule Smartsheet.ParseResponse do
     end
   end
 
+  def parse({:delete_rows, _arity}, response = %HTTPoison.Response{}) do
+    case response.status_code do
+      200 ->
+        success_response(response, %{})
+
+      _ ->
+        error_response(response)
+    end
+  end
+
   def parse({:get_row, _arity}, response = %HTTPoison.Response{}) do
     case response.status_code do
       200 ->

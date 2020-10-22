@@ -411,6 +411,69 @@ defmodule Smartsheet.MockClient.ResponseFixtures do
     })
   end
 
+  def delete_rows_success() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        message: "SUCCESS",
+        result: [1_936_303_049_467_780, 4_220_888_496_007_044],
+        result_code: 0
+      },
+      headers: [
+        {"Date", "Wed, 21 Oct 2020 19:58:01 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "81"},
+        {"Connection", "keep-alive"},
+        {"Cache-Control", "no-cache, no-store, must-revalidate"},
+        {"Pragma", "no-cache"},
+        {"Expires", "0"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "\"\"",
+        headers: [Authorization: "Bearer 123"],
+        method: :delete,
+        options: [
+          recv_timeout: 5000,
+          params: [ids: "1936303049467780,4220888496007044"]
+        ],
+        params: [ids: "1936303049467780,4220888496007044"],
+        url:
+          "https://api.smartsheet.com/2.0/sheets/3944882986346372/rows?ids=1936303049467780%2C4220888496007044"
+      },
+      request_url:
+        "https://api.smartsheet.com/2.0/sheets/3944882986346372/rows?ids=1936303049467780%2C4220888496007044",
+      status_code: 200
+    })
+  end
+
+  def delete_rows_failure() do
+    format_response(%HTTPoison.Response{
+      body: %{
+        detail: %{ids: '{', type: "row"},
+        error_code: 1006,
+        message: "Not Found",
+        ref_id: "x1y909cyw3f2"
+      },
+      headers: [
+        {"Date", "Wed, 21 Oct 2020 20:03:07 GMT"},
+        {"Content-Type", "application/json;charset=UTF-8"},
+        {"Content-Length", "139"},
+        {"Connection", "keep-alive"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request: %HTTPoison.Request{
+        body: "\"\"",
+        headers: [Authorization: "123"],
+        method: :delete,
+        options: [recv_timeout: 5000, params: [ids: "123"]],
+        params: [ids: "123"],
+        url: "https://api.smartsheet.com/2.0/sheets/3944882986346372/rows?ids=123"
+      },
+      request_url: "https://api.smartsheet.com/2.0/sheets/3944882986346372/rows?ids=123",
+      status_code: 404
+    })
+  end
+
   def get_row_failure() do
     format_response(%HTTPoison.Response{
       body: %{

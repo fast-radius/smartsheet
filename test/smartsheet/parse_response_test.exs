@@ -102,6 +102,20 @@ defmodule Smartsheet.ParseResponseTest do
     end
   end
 
+  describe ":delete_rows" do
+    test "success" do
+      {:ok, raw_http_response} = ResponseFixtures.delete_rows_success()
+      wrapped_response = ParseResponse.parse({:delete_rows, 1}, raw_http_response)
+      assert {:ok, %Smartsheet.Response{}, %{}} = wrapped_response
+    end
+
+    test "failure" do
+      {:ok, raw_http_response} = ResponseFixtures.delete_rows_failure()
+      wrapped_response = ParseResponse.parse({:delete_rows, 1}, raw_http_response)
+      assert {:error, %Smartsheet.Response{status_code: 404}} = wrapped_response
+    end
+  end
+
   describe ":get_row" do
     test "success" do
       {:ok, raw_http_response} = ResponseFixtures.get_row_success()

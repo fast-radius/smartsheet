@@ -10,120 +10,76 @@ defmodule Smartsheet.HttpClient do
 
   @impl ClientBehaviour
   def add_webhook(attributes) do
-    case post("/webhooks", attributes, "Content-Type": "application/json") do
-      {:ok, response = %HTTPoison.Response{}} ->
-        Smartsheet.ParseResponse.parse(__ENV__.function, response)
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        {:internal_error, reason}
-    end
-  end
-
-  @impl ClientBehaviour
-  def update_webhook(webhook_id, attributes) do
-    path = "/webhooks/#{webhook_id}"
-
-    case put(path, attributes, "Content-Type": "application/json") do
-      {:ok, response = %HTTPoison.Response{}} ->
-        Smartsheet.ParseResponse.parse(__ENV__.function, response)
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        {:internal_error, reason}
-    end
-  end
-
-  @impl ClientBehaviour
-  def delete_webhook(webhook_id) do
-    path = "/webhooks/#{webhook_id}"
-
-    case delete(path, "Content-Type": "application/json") do
-      {:ok, response = %HTTPoison.Response{}} ->
-        Smartsheet.ParseResponse.parse(__ENV__.function, response)
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        {:internal_error, reason}
-    end
+    post("/webhooks", attributes, "Content-Type": "application/json")
+    |> handle_response(__ENV__.function)
   end
 
   @impl ClientBehaviour
   def list_webhooks() do
-    path = "/webhooks"
-
-    case get(path, "Content-Type": "application/json") do
-      {:ok, response = %HTTPoison.Response{}} ->
-        Smartsheet.ParseResponse.parse(__ENV__.function, response)
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        {:internal_error, reason}
-    end
+    get("/webhooks")
+    |> handle_response(__ENV__.function)
   end
 
   @impl ClientBehaviour
-  def get_sheet(sheet_id, options \\ []) do
-    case get("/sheets/#{sheet_id}", [], params: options) do
-      {:ok, response = %HTTPoison.Response{}} ->
-        Smartsheet.ParseResponse.parse(__ENV__.function, response)
+  def update_webhook(webhook_id, attributes) do
+    put("/webhooks/#{webhook_id}", attributes, "Content-Type": "application/json")
+    |> handle_response(__ENV__.function)
+  end
 
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        {:internal_error, reason}
-    end
+  @impl ClientBehaviour
+  def delete_webhook(webhook_id) do
+    delete("/webhooks/#{webhook_id}")
+    |> handle_response(__ENV__.function)
   end
 
   @impl ClientBehaviour
   def create_sheet(attributes) do
-    case post("/sheets", attributes, "Content-Type": "application/json") do
-      {:ok, response = %HTTPoison.Response{}} ->
-        Smartsheet.ParseResponse.parse(__ENV__.function, response)
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        {:internal_error, reason}
-    end
+    post("/sheets", attributes, "Content-Type": "application/json")
+    |> handle_response(__ENV__.function)
   end
 
   @impl ClientBehaviour
-  def get_columns(sheet_id, options \\ []) do
-    case get("/sheets/#{sheet_id}/columns", [], params: options) do
-      {:ok, response = %HTTPoison.Response{}} ->
-        Smartsheet.ParseResponse.parse(__ENV__.function, response)
+  def get_sheet(sheet_id, params \\ []) do
+    get("/sheets/#{sheet_id}", [], params: params)
+    |> handle_response(__ENV__.function)
+  end
 
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        {:internal_error, reason}
-    end
+  @impl ClientBehaviour
+  def get_columns(sheet_id, params \\ []) do
+    get("/sheets/#{sheet_id}/columns", [], params: params)
+    |> handle_response(__ENV__.function)
   end
 
   @impl ClientBehaviour
   def add_rows(sheet_id, rows) do
-    path = "/sheets/#{sheet_id}/rows"
-
-    case post(path, rows, "Content-Type": "application/json") do
-      {:ok, %HTTPoison.Response{} = response} ->
-        Smartsheet.ParseResponse.parse(__ENV__.function, response)
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        {:internal_error, reason}
-    end
-  end
-
-  @impl ClientBehaviour
-  def update_rows(sheet_id, rows) do
-    path = "/sheets/#{sheet_id}/rows"
-
-    case put(path, rows, "Content-Type": "application/json") do
-      {:ok, response = %HTTPoison.Response{}} ->
-        Smartsheet.ParseResponse.parse(__ENV__.function, response)
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        {:internal_error, reason}
-    end
+    post("/sheets/#{sheet_id}/rows", rows, "Content-Type": "application/json")
+    |> handle_response(__ENV__.function)
   end
 
   @impl ClientBehaviour
   def get_row(sheet_id, row_id) do
-    path = "/sheets/#{sheet_id}/rows/#{row_id}"
+    get("/sheets/#{sheet_id}/rows/#{row_id}")
+    |> handle_response(__ENV__.function)
+  end
 
-    case get(path, "Content-Type": "application/json") do
-      {:ok, response = %HTTPoison.Response{}} ->
-        Smartsheet.ParseResponse.parse(__ENV__.function, response)
+  @impl ClientBehaviour
+  def update_rows(sheet_id, rows) do
+    put("/sheets/#{sheet_id}/rows", rows, "Content-Type": "application/json")
+    |> handle_response(__ENV__.function)
+  end
+
+  @impl ClientBehaviour
+  def delete_rows(sheet_id, row_ids) do
+    row_ids = Enum.join(row_ids, ",")
+
+    delete("/sheets/#{sheet_id}/rows", [], params: [ids: row_ids])
+    |> handle_response(__ENV__.function)
+  end
+
+  defp handle_response(response, function) do
+    case response do
+      {:ok, api_response = %HTTPoison.Response{}} ->
+        Smartsheet.ParseResponse.parse(function, api_response)
 
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:internal_error, reason}
@@ -154,9 +110,16 @@ defmodule Smartsheet.HttpClient do
     |> URI.to_string()
   end
 
+  @api_key Application.get_env(:smartsheet, :api_key) || System.get_env("SMARTSHEET_API_KEY")
   @impl HTTPoison.Base
   def process_request_headers(headers) do
-    [{:Authorization, "Bearer #{api_key()}"} | headers]
+    [{:Authorization, "Bearer #{@api_key}"} | headers]
+  end
+
+  @response_timeout Application.get_env(:smartsheet, :response_timeout) || 5000
+  @impl HTTPoison.Base
+  def process_request_options(options) do
+    [{:recv_timeout, @response_timeout} | options]
   end
 
   @impl HTTPoison.Base
@@ -165,10 +128,5 @@ defmodule Smartsheet.HttpClient do
     |> Poison.decode!()
     |> Recase.Enumerable.convert_keys(&Recase.to_snake/1)
     |> Smartsheet.Util.AtomizeKeys.atomize_keys()
-  end
-
-  defp api_key() do
-    Application.get_env(:smartsheet, :api_key) ||
-      System.get_env("SMARTSHEET_API_KEY")
   end
 end
