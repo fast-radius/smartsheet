@@ -115,10 +115,9 @@ defmodule Smartsheet.HttpClient do
     [{:Authorization, "Bearer #{api_key()}"} | headers]
   end
 
-  @response_timeout Application.get_env(:smartsheet, :response_timeout) || 5000
   @impl HTTPoison.Base
   def process_request_options(options) do
-    [{:recv_timeout, @response_timeout} | options]
+    [{:recv_timeout, response_timeout()} | options]
   end
 
   @impl HTTPoison.Base
@@ -131,5 +130,9 @@ defmodule Smartsheet.HttpClient do
 
   defp api_key() do
     Application.get_env(:smartsheet, :api_key) || System.get_env("SMARTSHEET_API_KEY")
+  end
+
+  defp response_timeout() do
+    Application.get_env(:smartsheet, :response_timeout) || 5000
   end
 end
