@@ -69,10 +69,12 @@ defmodule Smartsheet.HttpClient do
   end
 
   @impl ClientBehaviour
-  def delete_rows(sheet_id, row_ids) do
+  def delete_rows(sheet_id, row_ids, ignore_rows_not_found \\ false) do
     row_ids = Enum.join(row_ids, ",")
 
-    delete("/sheets/#{sheet_id}/rows", [], params: [ids: row_ids])
+    delete("/sheets/#{sheet_id}/rows", [],
+      params: [ids: row_ids, ignoreRowsNotFound: ignore_rows_not_found]
+    )
     |> handle_response(__ENV__.function)
   end
 
