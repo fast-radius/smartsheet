@@ -48,7 +48,7 @@ defmodule Smartsheet.ClientBehaviour do
               | {:error, Smartsheet.Response.t()}
               | {:internal_error, atom()}
 
-  @callback delete_rows(String.t(), List) ::
+  @callback delete_rows(String.t(), List, boolean()) ::
               {:ok, Smartsheet.Response.t(), map()}
               | {:error, Smartsheet.Response.t()}
               | {:internal_error, atom()}
