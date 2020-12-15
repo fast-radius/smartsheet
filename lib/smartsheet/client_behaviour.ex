@@ -52,4 +52,10 @@ defmodule Smartsheet.ClientBehaviour do
               {:ok, Smartsheet.Response.t(), map()}
               | {:error, Smartsheet.Response.t()}
               | {:internal_error, atom()}
+
+  @callback search_sheet(String.t(), String.t()) ::
+              {:ok, Smartsheet.Response.t(), map()}
+              | {:error, Smartsheet.Response.t()}
+              | {:internal_error, atom()}
+
 end

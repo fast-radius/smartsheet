@@ -45,6 +45,12 @@ defmodule Smartsheet.HttpClient do
   end
 
   @impl ClientBehaviour
+  def search_sheet(sheet_id, query) do
+    get("/search/sheets/#{sheet_id}?#{query}")
+    |> handle_response(__ENV__.function)
+  end
+
+  @impl ClientBehaviour
   def get_columns(sheet_id, params \\ []) do
     get("/sheets/#{sheet_id}/columns", [], params: params)
     |> handle_response(__ENV__.function)
