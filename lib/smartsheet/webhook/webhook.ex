@@ -1,5 +1,5 @@
 defmodule Smartsheet.Webhook do
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
 
   defstruct [
     :api_client_id,

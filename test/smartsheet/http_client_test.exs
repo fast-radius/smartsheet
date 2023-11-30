@@ -18,7 +18,7 @@ defmodule Smartsheet.HttpClientTest do
       }
 
       encoded =
-        "{\"toTop\":true,\"cells\":[{\"value\":\"Person\",\"columnId\":123},{\"value\":21,\"columnId\":456}]}"
+        "{\"cells\":[{\"columnId\":123,\"value\":\"Person\"},{\"columnId\":456,\"value\":21}],\"toTop\":true}"
 
       assert encoded == HttpClient.process_request_body(body)
     end
@@ -33,7 +33,7 @@ defmodule Smartsheet.HttpClientTest do
       }
 
       encoded =
-        "{\"toTop\":true,\"cells\":[{\"value\":\"Person\",\"columnId\":123},{\"value\":21,\"columnId\":456}]}"
+        "{\"cells\":[{\"columnId\":123,\"value\":\"Person\"},{\"columnId\":456,\"value\":21}],\"toTop\":true}"
 
       assert encoded == HttpClient.process_request_body(body)
     end
@@ -48,7 +48,7 @@ defmodule Smartsheet.HttpClientTest do
       }
 
       encoded =
-        "{\"toTop\":true,\"cells\":[{\"value\":\"Person\",\"columnId\":123},{\"value\":21,\"columnId\":456}]}"
+        "{\"cells\":[{\"columnId\":123,\"value\":\"Person\"},{\"columnId\":456,\"value\":21}],\"toTop\":true}"
 
       assert encoded == HttpClient.process_request_body(body)
     end
@@ -63,7 +63,7 @@ defmodule Smartsheet.HttpClientTest do
       }
 
       encoded =
-        "{\"toTop\":true,\"cells\":[{\"value\":\"Person\",\"columnId\":123},{\"value\":21,\"columnId\":456}]}"
+        "{\"cells\":[{\"columnId\":123,\"value\":\"Person\"},{\"columnId\":456,\"value\":21}],\"toTop\":true}"
 
       assert encoded == HttpClient.process_request_body(body)
     end

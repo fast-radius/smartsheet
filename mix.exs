@@ -23,8 +23,8 @@ defmodule Smartsheet.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 1.6"},
-      {:poison, ">= 3.1.0"},
+      {:httpoison, "~> 2.2"},
+      {:jason, "~> 1.4"},
       {:recase, "0.7.0"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]

@@ -1,5 +1,5 @@
 defmodule Smartsheet.Column do
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
 
   defstruct [
     :id,

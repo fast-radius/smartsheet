@@ -100,7 +100,7 @@ defmodule Smartsheet.HttpClient do
           |> Recase.Enumerable.convert_keys(&Recase.to_camel/1)
       end
 
-    Poison.encode!(request_body)
+    Jason.encode!(request_body)
   end
 
   @impl HTTPoison.Base
@@ -125,7 +125,7 @@ defmodule Smartsheet.HttpClient do
   @impl HTTPoison.Base
   def process_response_body(body) do
     body
-    |> Poison.decode!()
+    |> Jason.decode!()
     |> Recase.Enumerable.convert_keys(&Recase.to_snake/1)
     |> Smartsheet.Util.AtomizeKeys.atomize_keys()
   end
